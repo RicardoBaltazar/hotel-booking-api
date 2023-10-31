@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\CustomException;
 use App\Http\Requests\LoginRequest;
 use App\Services\LoginService;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
@@ -19,11 +21,14 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
         try {
-            $token = $this->loginService->login($credentials);
-            return response()->json(['token' => $token, 'message' => 'Login bem-sucedido']);
+            $response = $this->loginService->login($credentials);
+            return response()->json($response);
 
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Credenciais inválidas'], 401);
+        } catch (AuthenticationException $e) {
+            return response()->json(['error' => $e->getMessage()], 401);
+
+        } catch (CustomException $e) {
+            return response()->json(['error' => $e->getMessage()], 404);
         }
     }
 }
