@@ -43,6 +43,14 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function scopeGetByEmail($query, $email)
+    {
+        return $query
+            ->select()
+            ->where('email', '=', $email)
+            ->first();
+    }
+
     public function roles()
     {
         return $this->belongsToMany(Role::class);

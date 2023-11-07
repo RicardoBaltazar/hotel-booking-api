@@ -14,7 +14,7 @@ class Role extends Model
         return $query
             ->select('role')
             ->where('user_id', '=', $userId)
-            ->get();
+            ->first();
     }
 
     public function users()
