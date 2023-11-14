@@ -19,8 +19,7 @@ class LoginService
         $this->role = $role;
     }
 
-    // public function login(array $data): array
-    public function login(array $data)
+    public function login(array $data): array
     {
         $user = $this->getUserByEmail($data['email']);
         $this->validateCredentials($data['password'], $user->password);
