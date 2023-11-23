@@ -19,22 +19,54 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/login",
-     *      operationId="getProjectsList",
-     *      tags={"Login"},
-     *      summary="Make user login",
-     *      description="Returns auth token",
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful login"
-     *       ),
-     *       @OA\Response(response=400, description="Bad request"),
-     *       security={
-     *           {"api_key_security_example": {}}
-     *       }
-     *     )
-     *
-     * Returns list of projects
+     *     path="/login",
+     *     operationId="login",
+     *     tags={"Login"},
+     *     summary="Realiza login e cria token de autorização",
+     *     description="Retorna o token de autorização",
+     *     @OA\RequestBody(
+     *        description="Dados de login",
+     *        required=true,
+     *        @OA\JsonContent(
+     *            @OA\Property(
+     *                property="email",
+     *                description="Email do usuário",
+     *                type="string",
+     *            ),
+     *            @OA\Property(
+     *                property="password",
+     *                description="Senha do usuário",
+     *                type="string",
+     *            ),
+     *        ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Login bem-sucedido",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                property="message",
+     *                type="string",
+     *             ),
+     *             @OA\Property(
+     *                property="token",
+     *                type="string",
+     *             ),
+     *             @OA\Property(
+     *                property="access",
+     *                type="string",
+     *             ),
+     *         ),
+     *     ),
+     *    @OA\Response(
+     *        response=401,
+     *        description="Credenciais inválidas",
+     *    ),
+     *     @OA\Response(response=400, description="Bad request"),
+     *     security={
+     *         {"api_key_security_example": {}}
+     *     }
+     * )
      */
     public function __invoke(LoginRequest $request) : JsonResponse
     {
