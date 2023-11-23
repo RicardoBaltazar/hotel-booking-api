@@ -8,7 +8,7 @@
         "/login": {
             "post": {
                 "tags": [
-                    "Login"
+                    "Autenticação"
                 ],
                 "summary": "Realiza login e cria token de autorização",
                 "description": "Retorna o token de autorização",
@@ -66,6 +66,39 @@
                 "security": [
                     {
                         "api_key_security_example": []
+                    }
+                ]
+            }
+        },
+        "/logout": {
+            "get": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Realiza logout",
+                "description": "Realiza logout e encerra a sessão do usuário",
+                "operationId": "logout",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Logout bem-sucedido"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
                     }
                 ]
             }

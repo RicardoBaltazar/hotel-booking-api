@@ -21,7 +21,7 @@ class AuthController extends Controller
      * @OA\Post(
      *     path="/login",
      *     operationId="login",
-     *     tags={"Login"},
+     *     tags={"Autenticação"},
      *     summary="Realiza login e cria token de autorização",
      *     description="Retorna o token de autorização",
      *     @OA\RequestBody(

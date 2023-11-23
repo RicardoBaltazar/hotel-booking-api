@@ -16,6 +16,29 @@ class LogoutController extends Controller
         $this->loginService = $loginService;
     }
 
+/**
+ * @OA\Get(
+ *  path="/logout",
+ *  operationId="logout",
+ *  tags={"Autenticação"},
+ *  summary="Realiza logout",
+ *  description="Realiza logout e encerra a sessão do usuário",
+ *  security={{"bearerAuth":{}}},
+ *  @OA\Parameter(
+ *      name="Accept",
+ *      in="header",
+ *      required=true,
+ *      @OA\Schema(
+ *          type="string"
+ *      )
+ *  ),
+ *  @OA\Response(
+ *      response=200,
+ *      description="Logout bem-sucedido",
+ *  ),
+ *  @OA\Response(response=400, description="Bad request"),
+ * )
+ */
     public function __invoke()
     {
         try {
