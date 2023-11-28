@@ -1,45 +1,43 @@
-# Documentação do Projeto XYZ
+# OpenHotemApp.api
 
 ## Descrição do Projeto
 
-O projeto XYZ é uma aplicação web que permite aos usuários realizar [descrever a funcionalidade principal do projeto]. É desenvolvido com o objetivo de [inserir objetivos do projeto].
+Este projeto é uma API Laravel voltada para reservas de quartos de hotéis. Criado como um projeto fictício para estudo e hobby, tem como objetivo adicionar progressivamente funcionalidades mais avançadas em cada versão. Planeja-se utilizar tecnologias como Docker, microserviços, mensageria, testes, explorar pesquisas avançadas com estruturas de dados e aprimorar a plataforma aos poucos.
 
 ## Documentação
 
-A documentação completa do projeto XYZ está disponível [aqui](https://exemplo.com/documentacao).
+A documentação da API e dos endpoints foi elaborada utilizando Swagger e pode ser acessada pelo endereço `base_url/api/documentation`.  
+O endereço de `base_url` pode ser o localhost, caso o projeto esteja rodando locamente, ou a url base do projeto laravel rodando em produção.
+
 
 ## Funcionalidades
 
-A seguir estão as principais funcionalidades do projeto XYZ:
+A seguir estão as principais funcionalidades do projeto:
 
-1. **Cadastro de Usuários:** Os usuários podem criar uma conta no sistema fornecendo as informações necessárias.
-2. **Login e Autenticação:** Os usuários podem fazer login no sistema usando suas credenciais e receber um token de acesso.
-3. **Recuperação de Senha:** Os usuários têm a opção de recuperar sua senha por e-mail, seguindo um processo seguro.
-4. **Visualização de Dados:** Os usuários podem visualizar [descrever os tipos de dados que podem ser visualizados].
-5. **Edição de Dados:** Os usuários têm permissão para editar seus dados pessoais e outras informações relacionadas.
-6. **[Funcionalidade Adicional 1]:** Descrição da funcionalidade adicional.
-7. **[Funcionalidade Adicional 2]:** Descrição da funcionalidade adicional.
+1. **Login e Autenticação:** Os usuários podem fazer login e receber um token de autenticação para acessar os endpoints privados.
+2. **Logout:** Os usuários podem efetuar logout, invalidando o token de autenticação. 
 
 ## Tecnologias Utilizadas
 
 O projeto XYZ utiliza as seguintes tecnologias e práticas:
 
-1. **Banco de Dados SQL:** O sistema utiliza um banco de dados SQL para armazenar informações dos usuários e outros dados relevantes.
-2. **Cache Redis:** Para melhorar o desempenho, consultas frequentes são armazenadas em cache utilizando o Redis.
-3. **Microserviços:** Algumas funcionalidades específicas são implementadas como microserviços independentes para garantir escalabilidade e modularidade.
-4. **Framework MVC:** O projeto é construído usando um framework MVC (Model-View-Controller) para separar a lógica de negócios, a interface do usuário e a manipulação de dados.
-5. **API RESTful:** A comunicação entre o frontend e o backend é realizada através de uma API RESTful, seguindo as melhores práticas de design de API.
-6. **Testes Automatizados:** O projeto possui uma suíte de testes automatizados para garantir a estabilidade e a qualidade do código.
+1. **Banco de Dados SQL:** O sistema utiliza um banco de dados SQL para armazenar informações.
+2. **Testes Automatizados:** O projeto possui uma suíte de testes automatizados utilizando PHPUnit para garantir a estabilidade e a qualidade do código.
+3. **Laravel:** O projeto é desenvolvido utilizando o framework Laravel.
+4. **Laravel Sail:** O projeto tem o ambiente de desenvolvimento orquestrado pelo Laravel Sail
+4. **Sanctum:** Para autenticação, o projeto faz uso do Sanctum.
+5. **Telescope:** Utiliza o Telescope para facilitar a monitorização e registro de logs durante o desenvolvimento e depuração.
+6. **Swagger:** A documentação da API é elaborada utilizando Swagger para oferecer uma visão detalhada dos endpoints disponíveis e suas funcionalidades.
+
 
 ## Requisitos
 
 Antes de executar o projeto XYZ em seu ambiente de desenvolvimento, certifique-se de ter os seguintes requisitos atendidos:
 
-- Node.js (versão X.X.X ou superior)
-- Banco de Dados SQL (exemplo: MySQL, PostgreSQL)
-- Redis (versão X.X.X ou superior)
+- **WSL:** O projeto requer que você esteja usando Linux ou o WSL (Windows Subsystem for Linux) se estiver usando Windows.
+- **Docker ou Docker Engine:** É necessário ter o Docker ou o Docker Engine instalado em seu ambiente. O Docker é uma plataforma que permite empacotar e distribuir aplicações em contêineres.
 
-## Instalação e Configuração Local
+<!-- ## Instalação e Configuração Local
 
 Para instalar e configurar o projeto XYZ localmente, siga as etapas abaixo:
 
@@ -51,8 +49,8 @@ Durante o desenvolvimento do projeto XYZ, foram utilizados os seguintes recursos
 
 - [Biblioteca X](https://exemplo.com/biblioteca-x): Descrição da biblioteca X.
 - [API de Pagamento Y](https://exemplo.com/api-pagamento-y): Integração com a API de pagamento Y para processar transações financeiras.
-- [Framework Z](https://exemplo.com/framework-z): Utilização do framework Z para agilizar o desenvolvimento.
+- [Framework Z](https://exemplo.com/framework-z): Utilização do framework Z para agilizar o desenvolvimento. -->
 
-## Licença
+<!-- ## Licença
 
-O projeto XYZ é licenciado sob a Licença MIT. Consulte o arquivo [LICENSE](https://github.com/seu-usuario/projeto-xyz/blob/main/LICENSE) para obter mais informações.   
+O projeto XYZ é licenciado sob a Licença MIT. Consulte o arquivo [LICENSE](https://github.com/seu-usuario/projeto-xyz/blob/main/LICENSE) para obter mais informações.    -->
