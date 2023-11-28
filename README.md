@@ -19,7 +19,7 @@ A seguir estão as principais funcionalidades do projeto:
 
 ## Tecnologias Utilizadas
 
-O projeto XYZ utiliza as seguintes tecnologias e práticas:
+O projeto utiliza as seguintes tecnologias e práticas:
 
 1. **Banco de Dados SQL:** O sistema utiliza um banco de dados SQL para armazenar informações.
 2. **Testes Automatizados:** O projeto possui uma suíte de testes automatizados utilizando PHPUnit para garantir a estabilidade e a qualidade do código.
