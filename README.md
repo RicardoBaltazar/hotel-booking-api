@@ -1,4 +1,4 @@
-# OpenHotemApp.api
+# OpenHotelApp.api
 
 ## Descrição do Projeto
 
