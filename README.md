@@ -32,18 +32,60 @@ O projeto utiliza as seguintes tecnologias e práticas:
 
 ## Requisitos
 
-Antes de executar o projeto XYZ em seu ambiente de desenvolvimento, certifique-se de ter os seguintes requisitos atendidos:
+Antes de executar o projeto em seu ambiente de desenvolvimento, certifique-se de ter os seguintes requisitos atendidos:
 
 - **WSL:** O projeto requer que você esteja usando Linux ou o WSL (Windows Subsystem for Linux) se estiver usando Windows.
 - **Docker ou Docker Engine:** É necessário ter o Docker ou o Docker Engine instalado em seu ambiente. O Docker é uma plataforma que permite empacotar e distribuir aplicações em contêineres.
 
-<!-- ## Instalação e Configuração Local
+## Instalação e Configuração Local
 
-Para instalar e configurar o projeto XYZ localmente, siga as etapas abaixo:
+Para instalar e configurar o projeto localmente, siga as etapas abaixo:
 
-1. Clone este repositório em sua máquina local:
+1. Clone este repositório em sua máquina local.
 
-## Recursos Externos
+2. Certifique-se de que o Docker está em execução no seu ambiente de desenvolvimento.
+
+3. Execute o seguinte comando no terminal para instalar as dependências do projeto:
+     ```bash
+     docker run --rm \
+         -u "$(id -u):$(id -g)" \
+         -v "$(pwd):/var/www/html" \
+         -w /var/www/html \
+         laravelsail/php82-composer:latest \
+         composer install --ignore-platform-reqs
+     ```
+     Para mais informações, consulte a [documentação do Laravel Sail](link_laravel_sail).
+
+4. Crie o arquivo `.env` e configure suas variáveis de ambiente com o seguinte comando no terminal:
+     ```bash
+     cp .env.example .env
+     ```  
+5. Para iniciar o ambiente de desenvolvimento, execute o comando no terminal:
+     ```bash
+     ./vendor/bin/sail up
+     ```  
+
+6. Após iniciar o laravel sail, execute o comando para criar uma chave de criptografia e adicioná-la ao seu arquivo .env:
+    ```    
+    ./vendor/bin/sail artisan key:generate
+    ```
+
+7. No terminal, após criar seu banco de dados com base nas suas variaveis de ambiente configuradas, execute para realizar as migrações do banco de dados:
+     ```bash
+     ./vendor/bin/sail artisan migrate
+     ```
+
+8. Se desejar preencher o banco de dados com dados fictícios, execute o seguinte comando no terminal:
+     ```bash
+     ./vendor/bin/sail artisan db:seed
+     ```
+
+9. Para encerrar o ambiente de desenvolvimento, execute no terminal:
+     ```bash
+     ./vendor/bin/sail down
+     ```  
+
+<!-- ## Recursos Externos
 
 Durante o desenvolvimento do projeto XYZ, foram utilizados os seguintes recursos externos:
 
