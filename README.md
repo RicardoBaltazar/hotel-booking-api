@@ -75,12 +75,7 @@ Para instalar e configurar o projeto localmente, siga as etapas abaixo:
      ./vendor/bin/sail artisan migrate
      ```
 
-8. Se desejar preencher o banco de dados com dados fictícios, execute o seguinte comando no terminal:
-     ```bash
-     ./vendor/bin/sail artisan db:seed
-     ```
-
-9. Para encerrar o ambiente de desenvolvimento, execute no terminal:
+8. Para encerrar o ambiente de desenvolvimento, execute no terminal:
      ```bash
      ./vendor/bin/sail down
      ```  
