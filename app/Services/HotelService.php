@@ -27,7 +27,8 @@ class HotelService
 
     public function createHotel(array $data)
     {
-        $data['user_id'] = $this->checkIfUserHasAdminPermission();
+        $this->checkIfUserHasAdminPermission();
+        $data['user_id'] = $this->getUserId();
         $data['release_date'] = date('Y-m-d');
 
         try {
@@ -37,19 +38,33 @@ class HotelService
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
-
     }
 
-    private function checkIfUserHasAdminPermission(): int
+    public function removeHotel(int $id): string
+    {
+        $this->checkIfUserHasAdminPermission();
+        $hotel = $this->hotels->find($id);
+
+        if (!$hotel) {
+            throw new HttpException(404, 'Hotel não encontrado');
+        }
+
+        try {
+            $hotel->delete($hotel);
+            return 'Hotel removido com sucesso';
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
+    }
+
+    private function checkIfUserHasAdminPermission(): void
     {
         $id = $this->getUserId();
         $roles = $this->role->getByUserId($id);
 
         if($roles->role == 'user')
         {
-            throw new HttpException(403, 'Apenas usuários administradores podem cadastrar Hoteis');
+            throw new HttpException(403, 'Apenas usuários administradores têm permissão para acessar este recurso.');
         }
-
-        return $id;
     }
 }

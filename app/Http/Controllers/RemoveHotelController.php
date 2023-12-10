@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateHotelRequest;
 use App\Services\HotelService;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class createHotelController extends Controller
+class RemoveHotelController extends Controller
 {
     protected $hotelService;
 
@@ -15,11 +14,10 @@ class createHotelController extends Controller
         $this->hotelService = $hotelService;
     }
 
-    public function __invoke(CreateHotelRequest $request)
+    public function __invoke(int $id)
     {
-        $data = $request->all();
         try {
-            $response = $this->hotelService->createHotel($data);
+            $response = $this->hotelService->removeHotel($id);
             return response()->json($response);
         } catch (HttpException $e) {
             return response()->json(['error' => $e->getMessage()], $e->getStatusCode());
