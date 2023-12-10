@@ -57,6 +57,25 @@ class HotelService
         }
     }
 
+    public function editHotel(int $id, array $data): string
+    {
+        $this->checkIfUserHasAdminPermission();
+        $hotel = $this->hotels->find($id);
+
+        if (!$hotel) {
+            throw new HttpException(404, 'Hotel não encontrado');
+        }
+
+        try {
+            $hotel->fill($data);
+            $hotel->save();
+            return 'Hotel editado com sucesso';
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
+    }
+
+
     private function checkIfUserHasAdminPermission(): void
     {
         $id = $this->getUserId();
