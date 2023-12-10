@@ -2,20 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\CustomException;
+use App\Http\Requests\CreateHotelRequest;
+use App\Services\HotelService;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class createHotelController extends Controller
 {
-    public function __invoke(Request $request)
+    protected $hotelService;
+
+    public function __construct(HotelService $hotelService)
+    {
+        $this->hotelService = $hotelService;
+    }
+
+    public function __invoke(CreateHotelRequest $request)
     {
         $data = $request->all();
         try {
-            // $response = $this->loginService->login($credentials);
-            return response()->json($data);
-
-        } catch (CustomException $e) {
-            return response()->json(['error' => $e->getMessage()], 404);
+            $response = $this->hotelService->createHotel($data);
+            return response()->json($response);
+        } catch (HttpException $e) {
+            return response()->json(['error' => $e->getMessage()], $e->getStatusCode());
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }
