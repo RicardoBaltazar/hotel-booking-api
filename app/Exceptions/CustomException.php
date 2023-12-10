@@ -17,3 +17,5 @@ class CustomException extends RuntimeException
         return response()->json($this->getMessage(), Response::HTTP_NOT_FOUND);
     }
 }
+
+
