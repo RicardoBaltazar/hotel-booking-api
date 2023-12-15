@@ -6,6 +6,7 @@ use App\Models\Hotels;
 use App\Models\Role;
 use App\Traits\AuthenticatedUserIdTrait;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -13,22 +14,35 @@ class HotelService
 {
     use AuthenticatedUserIdTrait;
 
+    private $authenticatedUserHandlerService;
+    private $userPermissionCheckerService;
     private $role;
     private $hotels;
 
     public function __construct(
+        AuthenticatedUserHandlerService $authenticatedUserHandlerService,
+        UserPermissionCheckerService $userPermissionCheckerService,
         Role $role,
         Hotels $hotels
     )
     {
+        $this->authenticatedUserHandlerService = $authenticatedUserHandlerService;
+        $this->userPermissionCheckerService = $userPermissionCheckerService;
         $this->role = $role;
         $this->hotels = $hotels;
     }
 
     public function createHotel(array $data)
     {
-        $this->checkIfUserHasAdminPermission();
-        $data['user_id'] = $this->getUserId();
+        $this->userPermissionCheckerService->checkIfUserHasAdminPermission();
+
+        // $data['user_id'] = $this->getUserId();
+
+        $user = $this->authenticatedUserHandlerService->getAuthenticatedUser();
+        // return $user;
+
+        $data['user_id'] = $user->id;
+
         $data['release_date'] = date('Y-m-d');
 
         try {
@@ -42,7 +56,7 @@ class HotelService
 
     public function removeHotel(int $id): string
     {
-        $this->checkIfUserHasAdminPermission();
+        $this->userPermissionCheckerService->checkIfUserHasAdminPermission();
         $hotel = $this->hotels->find($id);
 
         if (!$hotel) {
@@ -59,7 +73,7 @@ class HotelService
 
     public function editHotel(int $id, array $data): string
     {
-        $this->checkIfUserHasAdminPermission();
+        $this->userPermissionCheckerService->checkIfUserHasAdminPermission();
         $hotel = $this->hotels->find($id);
 
         if (!$hotel) {
@@ -75,15 +89,10 @@ class HotelService
         }
     }
 
-
-    private function checkIfUserHasAdminPermission(): void
+    private function getAuthenticatedUserId()
     {
-        $id = $this->getUserId();
-        $roles = $this->role->getByUserId($id);
-
-        if($roles->role == 'user')
-        {
-            throw new HttpException(403, 'Apenas usuários administradores têm permissão para acessar este recurso.');
-        }
+        // return Auth::user();
+        $user = Auth::user();
+        return $user->id;
     }
 }
