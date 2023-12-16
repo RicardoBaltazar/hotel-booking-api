@@ -13,22 +13,30 @@ class HotelService
 {
     use AuthenticatedUserIdTrait;
 
+    private $authenticatedUserHandlerService;
+    private $userPermissionCheckerService;
     private $role;
     private $hotels;
 
     public function __construct(
+        AuthenticatedUserHandlerService $authenticatedUserHandlerService,
+        UserPermissionCheckerService $userPermissionCheckerService,
         Role $role,
         Hotels $hotels
     )
     {
+        $this->authenticatedUserHandlerService = $authenticatedUserHandlerService;
+        $this->userPermissionCheckerService = $userPermissionCheckerService;
         $this->role = $role;
         $this->hotels = $hotels;
     }
 
     public function createHotel(array $data)
     {
-        $this->checkIfUserHasAdminPermission();
-        $data['user_id'] = $this->getUserId();
+        $this->userPermissionCheckerService->checkIfUserHasAdminPermission();
+
+        $user = $this->authenticatedUserHandlerService->getAuthenticatedUser();
+        $data['user_id'] = $user->id;
         $data['release_date'] = date('Y-m-d');
 
         try {
@@ -42,7 +50,7 @@ class HotelService
 
     public function removeHotel(int $id): string
     {
-        $this->checkIfUserHasAdminPermission();
+        $this->userPermissionCheckerService->checkIfUserHasAdminPermission();
         $hotel = $this->hotels->find($id);
 
         if (!$hotel) {
@@ -59,7 +67,7 @@ class HotelService
 
     public function editHotel(int $id, array $data): string
     {
-        $this->checkIfUserHasAdminPermission();
+        $this->userPermissionCheckerService->checkIfUserHasAdminPermission();
         $hotel = $this->hotels->find($id);
 
         if (!$hotel) {
@@ -72,18 +80,6 @@ class HotelService
             return 'Hotel editado com sucesso';
         } catch (Exception $e) {
             Log::error($e->getMessage());
-        }
-    }
-
-
-    private function checkIfUserHasAdminPermission(): void
-    {
-        $id = $this->getUserId();
-        $roles = $this->role->getByUserId($id);
-
-        if($roles->role == 'user')
-        {
-            throw new HttpException(403, 'Apenas usuários administradores têm permissão para acessar este recurso.');
         }
     }
 }
