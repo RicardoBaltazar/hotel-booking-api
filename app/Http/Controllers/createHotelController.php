@@ -15,12 +15,13 @@ class createHotelController extends Controller
         $this->hotelService = $hotelService;
     }
 
+
     public function __invoke(CreateHotelRequest $request)
     {
         $data = $request->all();
         try {
             $response = $this->hotelService->createHotel($data);
-            return response()->json($response);
+            return response()->json($response, 201);
         } catch (HttpException $e) {
             return response()->json(['error' => $e->getMessage()], $e->getStatusCode());
         } catch (\Exception $e) {

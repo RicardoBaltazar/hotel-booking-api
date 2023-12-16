@@ -15,7 +15,8 @@ O endereço de `base_url` pode ser o localhost, caso o projeto esteja rodando lo
 A seguir estão as principais funcionalidades do projeto:
 
 1. **Login e Autenticação:** Os usuários podem fazer login e receber um token de autenticação para acessar os endpoints privados.
-2. **Logout:** Os usuários podem efetuar logout, invalidando o token de autenticação. 
+2. **Logout:** Os usuários podem efetuar logout, invalidando o token de autenticação.  
+3. **CRUD de hotéis**: Cadastro, remoção e edição. (Apenas usuários de nível admin podem cadastrar, editar e remover hoteis).
 
 ## Tecnologias Utilizadas
 
