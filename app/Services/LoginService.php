@@ -4,28 +4,33 @@ namespace App\Services;
 
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Auth\AuthenticationException;
+use App\Services\Utils\CredentialsValidator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class LoginService
 {
+    private $credentialsValidator;
     private $user;
     private $role;
 
-    public function __construct(User $user, Role $role)
+    public function __construct(
+        CredentialsValidator $credentialsValidator,
+        User $user,
+        Role $role
+        )
     {
+        $this->credentialsValidator = $credentialsValidator;
         $this->user = $user;
         $this->role = $role;
     }
 
     public function login(array $data): array
     {
-        $user = $this->getUserByEmail($data['email']);
-        $this->validateCredentials($data['password'], $user->password);
+        $user = $this->user->getByEmail($data['email']);
+        $this->credentialsValidator->validateCredentials($data['password'], $user->password);
 
-        $token = $this->generateToken($user);
-        $accessLevel = $this->getAccessLevel($user->id);
+        $token = $user->createToken('token-name')->plainTextToken;
+        $accessLevel = $this->role->getByUserId($user->id);
 
         return [
             "message" => 'Login bem-sucedido',
@@ -40,25 +45,8 @@ class LoginService
         return 'logout realizado!';
     }
 
-    private function validateCredentials(string $inputPassword, string $hashedPassword): void
-    {
-        if (!Hash::check($inputPassword, $hashedPassword)) {
-            throw new AuthenticationException('E-mail ou senha inválida');
-        }
-    }
-
-    private function generateToken(User $user): string
-    {
-        return $user->createToken('token-name')->plainTextToken;
-    }
-
     protected function getUserByEmail(string $email)
     {
         return $this->user->getByEmail($email);
-    }
-
-    protected function getAccessLevel(int $userId)
-    {
-        return $this->role->getByUserId($userId);
     }
 }
