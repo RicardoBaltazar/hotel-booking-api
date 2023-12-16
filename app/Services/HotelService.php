@@ -6,7 +6,6 @@ use App\Models\Hotels;
 use App\Models\Role;
 use App\Traits\AuthenticatedUserIdTrait;
 use Exception;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -36,13 +35,8 @@ class HotelService
     {
         $this->userPermissionCheckerService->checkIfUserHasAdminPermission();
 
-        // $data['user_id'] = $this->getUserId();
-
         $user = $this->authenticatedUserHandlerService->getAuthenticatedUser();
-        // return $user;
-
         $data['user_id'] = $user->id;
-
         $data['release_date'] = date('Y-m-d');
 
         try {
@@ -87,12 +81,5 @@ class HotelService
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
-    }
-
-    private function getAuthenticatedUserId()
-    {
-        // return Auth::user();
-        $user = Auth::user();
-        return $user->id;
     }
 }

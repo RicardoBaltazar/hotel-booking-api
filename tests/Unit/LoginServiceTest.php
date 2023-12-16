@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class LoginServiceTest extends TestCase
 {
-    public function testLogout()
+    public function test_logout()
     {
         Auth::shouldReceive('logout')->once();
 
