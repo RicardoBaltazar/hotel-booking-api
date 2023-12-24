@@ -6,7 +6,8 @@ use App\Models\Hotels;
 use App\Models\Room;
 use App\Services\AuthenticatedUserHandlerService;
 use App\Services\UserPermissionCheckerService;
-use App\Services\Utils\ModelValidationService;
+use App\Services\Utils\HotelValidatorService;
+use App\Services\Utils\ModelValidatorService;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -17,21 +18,24 @@ class RoomService
 
     private $authenticatedUserHandlerService;
     private $userPermissionCheckerService;
-    private $modelValidationService;
+    private $modelValidatorService;
+    private $hotelValidatorService;
     private $hotels;
     private $room;
 
     public function __construct(
         AuthenticatedUserHandlerService $authenticatedUserHandlerService,
         UserPermissionCheckerService $userPermissionCheckerService,
-        ModelValidationService $modelValidationService,
+        ModelValidatorService $modelValidatorService,
+        HotelValidatorService $hotelValidatorService,
         Hotels $hotels,
         Room $room
     )
     {
         $this->authenticatedUserHandlerService = $authenticatedUserHandlerService;
         $this->userPermissionCheckerService = $userPermissionCheckerService;
-        $this->modelValidationService = $modelValidationService;
+        $this->modelValidatorService = $modelValidatorService;
+        $this->hotelValidatorService = $hotelValidatorService;
         $this->hotels = $hotels;
         $this->room = $room;
     }
@@ -43,8 +47,8 @@ class RoomService
         $user = $this->authenticatedUserHandlerService->getAuthenticatedUser();
         $hotel =  $this->hotels->find($data['hotel_id']);
 
-        $this->modelValidationService->validateIfModelHasRecords($hotel, 'Hotel not found', 404);
-        $this->validateIfIsAdminOfHotel($user, $hotel);
+        $this->modelValidatorService->validateIfModelHasRecords($hotel, 'Hotel not found', 404);
+        $this->hotelValidatorService->validateIfIsAdminOfHotel($user, $hotel);
 
         $data['user_id'] = $user->id;
         $data['status_id'] = self::DEFAULT_ROOM_STATUS;
@@ -59,20 +63,20 @@ class RoomService
         }
     }
 
-    public function validateIfIsAdminOfHotel(object $user, object $hotel): void
-    {
-        if($user->id != $hotel->user_id)
-        {
-            throw new HttpException(403, 'Only the hotel administrator user can register a new room.');
-        }
-    }
+    // public function validateIfIsAdminOfHotel(object $user, object $hotel): void
+    // {
+    //     if($user->id != $hotel->user_id)
+    //     {
+    //         throw new HttpException(403, 'Only the hotel administrator user can register a new room');
+    //     }
+    // }
 
     public function editRoom(int $id, array $data): string
     {
         $this->userPermissionCheckerService->checkIfUserHasAdminPermission();
 
         $room = $this->room->find($id);
-        $this->modelValidationService->validateIfModelHasRecords($room, 'Room not found', 404);
+        $this->modelValidatorService->validateIfModelHasRecords($room, 'Room not found', 404);
 
         $user = $this->authenticatedUserHandlerService->getAuthenticatedUser();
 
@@ -95,7 +99,7 @@ class RoomService
         $this->userPermissionCheckerService->checkIfUserHasAdminPermission();
 
         $room = $this->room->find($id);
-        $this->modelValidationService->validateIfModelHasRecords($room, 'Room not found', 404);
+        $this->modelValidatorService->validateIfModelHasRecords($room, 'Room not found', 404);
 
         $user = $this->authenticatedUserHandlerService->getAuthenticatedUser();
 

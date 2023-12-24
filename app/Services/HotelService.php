@@ -54,7 +54,7 @@ class HotelService
         $hotel = $this->hotels->find($id);
 
         if (!$hotel) {
-            throw new HttpException(404, 'Hotel não encontrado');
+            throw new HttpException(404, 'Hotel not found');
         }
 
         try {
@@ -71,7 +71,7 @@ class HotelService
         $hotel = $this->hotels->find($id);
 
         if (!$hotel) {
-            throw new HttpException(404, 'Hotel não encontrado');
+            throw new HttpException(404, 'Hotel not found');
         }
 
         try {

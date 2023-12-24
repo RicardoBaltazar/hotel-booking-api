@@ -4,7 +4,7 @@ namespace App\Services\Utils;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class ModelValidationService
+class ModelValidatorService
 {
     public function validateIfModelHasRecords(object|null $model, string $descrition, int $httpStatus): void
     {

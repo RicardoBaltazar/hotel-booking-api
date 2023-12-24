@@ -72,7 +72,7 @@ class HotelServiceTest extends TestCase
 
         $result = $this->hotelService->createHotel($data);
 
-        $this->assertEquals('Hotel cadastrado com sucesso', $result);
+        $this->assertEquals('Hotel registered successfully', $result);
     }
 
     public function test_if_hotel_was_removed()
@@ -83,7 +83,7 @@ class HotelServiceTest extends TestCase
         $hotel->shouldReceive('delete')->once()->andReturn(true);
 
         $result = $this->hotelService->removeHotel($id);
-        $this->assertEquals('Hotel removido com sucesso', $result);
+        $this->assertEquals('Hotel successfully removed', $result);
     }
 
     public function test_it_throws_exception_when_hotel_not_found()
@@ -92,7 +92,7 @@ class HotelServiceTest extends TestCase
         $this->hotelsMock->shouldReceive('find')->with($id)->andReturn(null);
 
         $this->expectException(HttpException::class);
-        $this->expectExceptionMessage('Hotel não encontrado');
+        $this->expectExceptionMessage('Hotel not found');
 
         $this->hotelService->removeHotel($id);
     }
@@ -113,7 +113,7 @@ class HotelServiceTest extends TestCase
         $hotel->shouldReceive('save')->once()->andReturn(true);
 
         $result = $this->hotelService->editHotel($id, $data);
-        $this->assertEquals('Hotel editado com sucesso', $result);
+        $this->assertEquals('Hotel edited successfully', $result);
     }
 
     public function test_it_throws_exception_when_hotel_not_found_in_edit()
