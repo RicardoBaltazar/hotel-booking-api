@@ -67,7 +67,7 @@ class RoomService
         }
     }
 
-    public function editRoom($id, $data)
+    public function editRoom(int $id, array $data): string
     {
         $this->userPermissionCheckerService->checkIfUserHasAdminPermission();
 
@@ -85,6 +85,28 @@ class RoomService
             $room->fill($data);
             $room->save();
             return 'Hotel room edited successfully';
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
+    }
+
+    public function removeRoom(int $id): string
+    {
+        $this->userPermissionCheckerService->checkIfUserHasAdminPermission();
+
+        $room = $this->room->find($id);
+        $this->modelValidationService->validateIfModelHasRecords($room, 'Room not found', 404);
+
+        $user = $this->authenticatedUserHandlerService->getAuthenticatedUser();
+
+        if($user->id != $room->user_id)
+        {
+            throw new HttpException(403, 'Only the hotel administrator user can remove a hotel room.');
+        }
+
+        try {
+            $room->delete($room);
+            return 'Hotel successfully removed';
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }

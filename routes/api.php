@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\createHotelController;
 use App\Http\Controllers\CreateRoomController;
+use App\Http\Controllers\DeleteRoomController;
 use App\Http\Controllers\EditHotelController;
 use App\Http\Controllers\EditRoomController;
 use App\Http\Controllers\LogoutController;
@@ -20,4 +21,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/room', CreateRoomController::class);
     Route::put('/room/{id}', EditRoomController::class);
+    Route::delete('/room/{id}', DeleteRoomController::class);
 });
