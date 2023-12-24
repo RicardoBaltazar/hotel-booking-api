@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\createHotelController;
 use App\Http\Controllers\CreateRoomController;
 use App\Http\Controllers\EditHotelController;
+use App\Http\Controllers\EditRoomController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RemoveHotelController;
 use Illuminate\Support\Facades\Route;
@@ -18,4 +19,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/hotel/{id}', EditHotelController::class);
 
     Route::post('/room', CreateRoomController::class);
+    Route::put('/room/{id}', EditRoomController::class);
 });

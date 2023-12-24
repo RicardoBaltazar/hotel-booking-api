@@ -35,6 +35,7 @@ class RoomService
         $this->hotels = $hotels;
         $this->room = $room;
     }
+
     public function registerRoom($data)
     {
         $this->userPermissionCheckerService->checkIfUserHasAdminPermission();
@@ -56,8 +57,6 @@ class RoomService
             Log::error($e->getMessage());
             throw new Exception($e->getMessage());
         }
-
-        return $data;
     }
 
     public function validateIfIsAdminOfHotel(object $user, object $hotel): void
@@ -65,6 +64,29 @@ class RoomService
         if($user->id != $hotel->user_id)
         {
             throw new HttpException(403, 'Only the hotel administrator user can register a new room.');
+        }
+    }
+
+    public function editRoom($id, $data)
+    {
+        $this->userPermissionCheckerService->checkIfUserHasAdminPermission();
+
+        $room = $this->room->find($id);
+        $this->modelValidationService->validateIfModelHasRecords($room, 'Room not found', 404);
+
+        $user = $this->authenticatedUserHandlerService->getAuthenticatedUser();
+
+        if($user->id != $room->user_id)
+        {
+            throw new HttpException(403, 'Only the hotel administrator user can edit a hotel room.');
+        }
+
+        try {
+            $room->fill($data);
+            $room->save();
+            return 'Hotel room edited successfully';
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
         }
     }
 }
