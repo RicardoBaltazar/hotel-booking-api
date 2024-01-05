@@ -11,7 +11,6 @@ use App\Services\Utils\ModelValidatorService;
 use App\Services\Utils\RoomValidatorService;
 use Exception;
 use Illuminate\Support\Facades\Log;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class RoomService
 {
@@ -69,14 +68,6 @@ class RoomService
             throw new Exception($e->getMessage());
         }
     }
-
-    // public function validateIfIsAdminOfHotel(object $user, object $hotel): void
-    // {
-    //     if($user->id != $hotel->user_id)
-    //     {
-    //         throw new HttpException(403, 'Only the hotel administrator user can register a new room');
-    //     }
-    // }
 
     public function editRoom(int $id, array $data): string
     {
