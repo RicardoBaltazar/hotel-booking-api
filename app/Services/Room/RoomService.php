@@ -8,6 +8,7 @@ use App\Services\AuthenticatedUserHandlerService;
 use App\Services\UserPermissionCheckerService;
 use App\Services\Utils\HotelValidatorService;
 use App\Services\Utils\ModelValidatorService;
+use App\Services\Utils\RoomValidatorService;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -15,11 +16,14 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class RoomService
 {
     const DEFAULT_ROOM_STATUS = 1;
+    const HOTEL_NOT_FOUND_MESSAGE = 'Hotel not found';
+    const HTTP_STATUS_NOT_FOUND = 404;
 
     private $authenticatedUserHandlerService;
     private $userPermissionCheckerService;
     private $modelValidatorService;
     private $hotelValidatorService;
+    private $roomValidatorService;
     private $hotels;
     private $room;
 
@@ -28,6 +32,7 @@ class RoomService
         UserPermissionCheckerService $userPermissionCheckerService,
         ModelValidatorService $modelValidatorService,
         HotelValidatorService $hotelValidatorService,
+        RoomValidatorService $roomValidatorService,
         Hotels $hotels,
         Room $room
     )
@@ -36,6 +41,7 @@ class RoomService
         $this->userPermissionCheckerService = $userPermissionCheckerService;
         $this->modelValidatorService = $modelValidatorService;
         $this->hotelValidatorService = $hotelValidatorService;
+        $this->roomValidatorService = $roomValidatorService;
         $this->hotels = $hotels;
         $this->room = $room;
     }
@@ -47,7 +53,8 @@ class RoomService
         $user = $this->authenticatedUserHandlerService->getAuthenticatedUser();
         $hotel =  $this->hotels->find($data['hotel_id']);
 
-        $this->modelValidatorService->validateIfModelHasRecords($hotel, 'Hotel not found', 404);
+        $this->modelValidatorService->validateIfModelHasRecords($hotel, self::HOTEL_NOT_FOUND_MESSAGE,);
+
         $this->hotelValidatorService->validateIfIsAdminOfHotel($user, $hotel);
 
         $data['user_id'] = $user->id;
@@ -76,14 +83,10 @@ class RoomService
         $this->userPermissionCheckerService->checkIfUserHasAdminPermission();
 
         $room = $this->room->find($id);
-        $this->modelValidatorService->validateIfModelHasRecords($room, 'Room not found', 404);
+        $this->modelValidatorService->validateIfModelHasRecords($room, self::HOTEL_NOT_FOUND_MESSAGE);
 
         $user = $this->authenticatedUserHandlerService->getAuthenticatedUser();
-
-        if($user->id != $room->user_id)
-        {
-            throw new HttpException(403, 'Only the hotel administrator user can edit a hotel room.');
-        }
+        $this->roomValidatorService->validateUserIsAdminOfHotelRoom($user, $room);
 
         try {
             $room->fill($data);
@@ -99,14 +102,10 @@ class RoomService
         $this->userPermissionCheckerService->checkIfUserHasAdminPermission();
 
         $room = $this->room->find($id);
-        $this->modelValidatorService->validateIfModelHasRecords($room, 'Room not found', 404);
+        $this->modelValidatorService->validateIfModelHasRecords($room, self::HOTEL_NOT_FOUND_MESSAGE);
 
         $user = $this->authenticatedUserHandlerService->getAuthenticatedUser();
-
-        if($user->id != $room->user_id)
-        {
-            throw new HttpException(403, 'Only the hotel administrator user can remove a hotel room.');
-        }
+        $this->roomValidatorService->validateUserIsAdminOfHotelRoom($user, $room);
 
         try {
             $room->delete($room);

@@ -3,13 +3,14 @@
 namespace App\Services\Utils;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpFoundation\Response;
 
 class ModelValidatorService
 {
-    public function validateIfModelHasRecords(object|null $model, string $descrition, int $httpStatus): void
+    public function validateIfModelHasRecords(object|null $model, string $descrition): void
     {
         if (!$model) {
-            throw new HttpException($httpStatus, $descrition);
+            throw new HttpException(Response::HTTP_NOT_FOUND, $descrition);
         }
     }
 }

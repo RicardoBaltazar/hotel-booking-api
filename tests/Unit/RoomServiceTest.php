@@ -9,6 +9,7 @@ use App\Services\Room\RoomService;
 use App\Services\UserPermissionCheckerService;
 use App\Services\Utils\HotelValidatorService;
 use App\Services\Utils\ModelValidatorService;
+use App\Services\Utils\RoomValidatorService;
 use App\Traits\AuthenticatedUserIdTrait;
 use Mockery;
 use Tests\TestCase;
@@ -21,6 +22,7 @@ class RoomServiceTest extends TestCase
     private $userPermissionCheckerServiceMock;
     private $modelValidatorServiceMock;
     private $hotelValidatorServiceMock;
+    private $roomValidatorServiceMock;
     private $hotelMock;
     private $roomMock;
     private $roomService;
@@ -33,7 +35,7 @@ class RoomServiceTest extends TestCase
         $this->userPermissionCheckerServiceMock = $this->createMock(UserPermissionCheckerService::class);
         $this->modelValidatorServiceMock = $this->createMock(ModelValidatorService::class);
         $this->hotelValidatorServiceMock = $this->createMock(HotelValidatorService::class);
-        // $this->hotelValidatorServiceMock = Mockery::mock(HotelValidatorService::class);
+        $this->roomValidatorServiceMock = $this->createMock(RoomValidatorService::class);
         $this->hotelMock = Mockery::mock(Hotels::class);
         $this->roomMock = Mockery::mock(Room::class);
 
@@ -42,6 +44,7 @@ class RoomServiceTest extends TestCase
             $this->userPermissionCheckerServiceMock,
             $this->modelValidatorServiceMock,
             $this->hotelValidatorServiceMock,
+            $this->roomValidatorServiceMock,
             $this->hotelMock,
             $this->roomMock
         );
@@ -96,5 +99,74 @@ class RoomServiceTest extends TestCase
 
         $result = $this->roomService->registerRoom($data);
         $this->assertEquals('Hotel room registered successfully', $result);
+    }
+
+    public function tests_if_room_is_edited()
+    {
+        $id = 1;
+        $data = [
+            "hotel_id" => 1,
+            "room_type_id" => 1,
+            "description" => "Nova descrição",
+            "price" => 175.00
+        ];
+
+        $room = Mockery::mock('Room');
+        $this->roomMock->shouldReceive('find')->with($id)->andReturn($room);
+
+        $this->userPermissionCheckerServiceMock
+            ->expects($this->once())
+            ->method('checkIfUserHasAdminPermission');
+
+        $this->modelValidatorServiceMock
+            ->expects($this->once())
+            ->method('validateIfModelHasRecords');
+
+        $this->authenticatedUserHandlerServiceMock
+            ->expects($this->once())
+            ->method('getAuthenticatedUser')
+            ->willReturn((object)[
+                'id' => 1
+        ]);
+
+        $this->roomValidatorServiceMock
+            ->expects($this->once())
+            ->method('validateUserIsAdminOfHotelRoom');
+
+        $room->shouldReceive('fill')->once()->with($data);
+        $room->shouldReceive('save')->once()->andReturn(true);
+
+        $result = $this->roomService->editRoom($id, $data);
+        $this->assertEquals('Hotel room edited successfully', $result);
+    }
+
+    public function test_if_room_was_removed()
+    {
+        $id = 1;
+        $room = Mockery::mock('Room');
+        $this->roomMock->shouldReceive('find')->with($id)->andReturn($room);
+        $room->shouldReceive('delete')->once()->andReturn(true);
+
+        $this->userPermissionCheckerServiceMock
+        ->expects($this->once())
+        ->method('checkIfUserHasAdminPermission');
+
+        $this->modelValidatorServiceMock
+            ->expects($this->once())
+            ->method('validateIfModelHasRecords');
+
+        $this->authenticatedUserHandlerServiceMock
+            ->expects($this->once())
+            ->method('getAuthenticatedUser')
+            ->willReturn((object)[
+                'id' => 1
+        ]);
+
+        $this->roomValidatorServiceMock
+            ->expects($this->once())
+            ->method('validateUserIsAdminOfHotelRoom');
+
+        $result = $this->roomService->removeRoom($id);
+        $this->assertEquals('Hotel successfully removed', $result);
     }
 }
