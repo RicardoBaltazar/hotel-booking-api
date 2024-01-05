@@ -1,3 +1,27 @@
+# Desafio: API de reserva de hoteis com microserviços e integração com API de pagamento
+
+## Descrição do desafio
+Desenvolva uma API para reservas de hotéis, integrada a um sistema de pagamentos e utilizando microserviços para garantir eficiência e escalabilidade.
+
+1. **Autenticação de Usuário:**
+    - Implementar um sistema de autenticação com JWT para garantir a segurança e controle de acesso à API.
+2. **CRUD de Hotéis:**
+    - Permitir criar, ler, atualizar e excluir hotéis, incluindo informações como nome, localização e comodidades. Cada hotel terá um ID exclusivo.
+3. **CRUD de Quartos de Hotel:**
+    - Possibilitar criar, ler, atualizar e excluir quartos de hotel, incluindo detalhes como tipo, preço e disponibilidade, associados a um hotel específico.
+4. **Reservas de Quartos de Hotel:**
+    - Permitir que usuários façam reservas de quartos de hotel escolhendo datas e quartos disponíveis, com verificação em tempo real de disponibilidade.
+5. **Integração com API de Pagamento:**
+    - Integrar-se a uma API de pagamento para possibilitar pagamentos seguros pelas reservas de quartos de hotel.
+6. **Microserviço de Notificações por E-mail:**
+    - Implementar ao menos um microserviço para enviar e-mails de confirmação de reserva aos usuários após uma reserva bem-sucedida.
+7. **Cache e Filas com Redis:**
+    - Utilizar Redis para melhorar o desempenho por meio de armazenamento em cache e processamento assíncrono de filas para os processamentos de pedidos, e envio de e-mails. Estas operações pode ser realizadas em segundo plano.
+8. **Deploy**
+    - Realizar o deploy da aplicação em algum ambiente de produção para disponibilizar o serviço. Se for possivel, utilize docker.
+
+## Projeto do desafio
+
 # OpenHotelApp.api
 
 ## Descrição do Projeto
