@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Room\RoomService;
+use App\Services\RoomService;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class DeleteRoomController extends Controller

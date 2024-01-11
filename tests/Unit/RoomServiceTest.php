@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use App\Models\Hotels;
 use App\Models\Room;
 use App\Services\AuthenticatedUserHandlerService;
-use App\Services\Room\RoomService;
+use App\Services\RoomService;
 use App\Services\UserPermissionCheckerService;
 use App\Services\Utils\HotelValidatorService;
 use App\Services\Utils\ModelValidatorService;

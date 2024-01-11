@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Room;
+namespace App\Services;
 
 use App\Models\Hotels;
 use App\Models\Room;
