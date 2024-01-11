@@ -13,7 +13,8 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ReservationService
 {
-    const AVAILABLE_STATUS_CODE = 2;
+    const AVAILABLE_STATUS_CODE = 1;
+    const OCCUPIED_STATUS_CODE = 2;
     const AVAILABLE_STATUS = 'Available';
     const OCCUPIED_STATUS = 'Occupied';
 
@@ -35,7 +36,6 @@ class ReservationService
         $this->room = $room;
     }
 
-    //refactor
     public function reserveRoom(array $data): string
     {
         $currentDate = new DateTime();
@@ -63,7 +63,7 @@ class ReservationService
             $this->reservation->create($data);
 
             $room->fill([
-                "status_id"=> self::AVAILABLE_STATUS_CODE,
+                "status_id"=> self::OCCUPIED_STATUS_CODE,
             ]);
             $room->save();
 
@@ -73,5 +73,40 @@ class ReservationService
             Log::error($e->getMessage());
             throw new Exception($e->getMessage());
         }
+    }
+
+    public function checkout(array $data): string
+    {
+        // In a real application, it would be interesting not to delete the reservation
+        // from the table, to serve as reports and future analyses. It would also be
+        // important to create a table to store checkouts and mark them as completed.
+
+        try {
+            $reservation = $this->reservation->find($data['reservation_id']);
+
+            if (!$reservation) {
+                throw new HttpException(404, 'Reservation not found');
+            }
+
+            $room = $this->room->find($reservation['room_id']);
+            if (!$room) {
+                throw new HttpException(404, 'Room not found');
+            }
+
+            $room->fill([
+                "status_id"=> self::AVAILABLE_STATUS_CODE,
+            ]);
+            $room->save();
+
+            $reservation->delete($reservation);
+
+            return 'checkout completed successfully';
+
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            throw new Exception($e->getMessage());
+        }
+
+        return $reservation;
     }
 }
