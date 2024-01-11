@@ -23,7 +23,7 @@ class UserPermissionCheckerService
         $roles = $this->role->getByUserId($id);
 
         if ($roles->role == 'user') {
-            throw new HttpException(403, 'Apenas usuários administradores têm permissão para acessar este recurso.');
+            throw new HttpException(403, 'Only admin users are allowed to access this feature');
         }
     }
 }

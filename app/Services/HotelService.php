@@ -41,7 +41,7 @@ class HotelService
 
         try {
             $this->hotels->create($data);
-            return 'Hotel cadastrado com sucesso';
+            return 'Hotel registered successfully';
 
         } catch (Exception $e) {
             Log::error($e->getMessage());
@@ -54,12 +54,12 @@ class HotelService
         $hotel = $this->hotels->find($id);
 
         if (!$hotel) {
-            throw new HttpException(404, 'Hotel não encontrado');
+            throw new HttpException(404, 'Hotel not found');
         }
 
         try {
             $hotel->delete($hotel);
-            return 'Hotel removido com sucesso';
+            return 'Hotel successfully removed';
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
@@ -71,13 +71,13 @@ class HotelService
         $hotel = $this->hotels->find($id);
 
         if (!$hotel) {
-            throw new HttpException(404, 'Hotel não encontrado');
+            throw new HttpException(404, 'Hotel not found');
         }
 
         try {
             $hotel->fill($data);
             $hotel->save();
-            return 'Hotel editado com sucesso';
+            return 'Hotel edited successfully';
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
