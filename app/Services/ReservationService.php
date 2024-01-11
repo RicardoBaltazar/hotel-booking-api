@@ -13,7 +13,9 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ReservationService
 {
+    const AVAILABLE_STATUS_CODE = 2;
     const AVAILABLE_STATUS = 'Available';
+    const OCCUPIED_STATUS = 'Occupied';
 
     private $authenticatedUserHandlerService;
     private $reservation;
@@ -33,6 +35,7 @@ class ReservationService
         $this->room = $room;
     }
 
+    //refactor
     public function reserveRoom(array $data): string
     {
         $currentDate = new DateTime();
@@ -58,6 +61,12 @@ class ReservationService
 
         try {
             $this->reservation->create($data);
+
+            $room->fill([
+                "status_id"=> self::AVAILABLE_STATUS_CODE,
+            ]);
+            $room->save();
+
             return 'successfully booked hotel room';
 
         } catch (Exception $e) {
