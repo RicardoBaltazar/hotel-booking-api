@@ -56,7 +56,6 @@ class HotelServiceTest extends TestCase
             ->expects($this->once())
             ->method('checkIfUserHasAdminPermission');
 
-
         $this->authenticatedUserHandlerServiceMock
             ->expects($this->once())
             ->method('getAuthenticatedUser')

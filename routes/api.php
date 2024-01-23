@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CheckoutReservationController;
 use App\Http\Controllers\createHotelController;
 use App\Http\Controllers\CreateRoomController;
 use App\Http\Controllers\CreateRoomReservationController;
@@ -14,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', AuthController::class);
 Route::get('/logout', LogoutController::class);
 
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/hotel', createHotelController::class);
     Route::delete('/hotel/{id}', RemoveHotelController::class);
@@ -25,4 +25,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/room/{id}', DeleteRoomController::class);
 
     Route::post('/rooms/reservations', CreateRoomReservationController::class);
+    Route::post('/rooms/checkout', CheckoutReservationController::class);
 });

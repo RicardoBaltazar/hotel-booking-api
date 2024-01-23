@@ -18,31 +18,32 @@ Desenvolva uma API para reservas de hotéis, integrada a um sistema de pagamento
 7. **Cache e Filas com Redis:**
     - Utilizar Redis para melhorar o desempenho por meio de armazenamento em cache e processamento assíncrono de filas para os processamentos de pedidos, e envio de e-mails. Estas operações pode ser realizadas em segundo plano.
 8. **Deploy**
-    - Realizar o deploy da aplicação em algum ambiente de produção para disponibilizar o serviço. Se for possivel, utilize docker.
+    - Realizar o deploy da aplicação em algum ambiente de produção para disponibilizar o serviço. Se for possivel, utilize docker.  
+    ---  
 
 ## Projeto do desafio
 
-# OpenHotelApp.api
+<!-- # OpenHotelApp.api
 
 ## Descrição do Projeto
 
-Este projeto é uma API Laravel voltada para reservas de quartos de hotéis. Criado como um projeto fictício para estudo e hobby, tem como objetivo adicionar progressivamente funcionalidades mais avançadas em cada versão. Planeja-se utilizar tecnologias como Docker, microserviços, mensageria, testes, explorar pesquisas avançadas com estruturas de dados e aprimorar a plataforma aos poucos.
+Este projeto é uma API Laravel voltada para reservas de quartos de hotéis. Criado como um projeto fictício para estudo e hobby, tem como objetivo adicionar progressivamente funcionalidades mais avançadas em cada versão. Planeja-se utilizar tecnologias como Docker, microserviços, mensageria, testes, explorar pesquisas avançadas com estruturas de dados e aprimorar a plataforma aos poucos. -->
 
-## Documentação
+### Documentação
 
 A documentação da API e dos endpoints foi elaborada utilizando Swagger e pode ser acessada pelo endereço `base_url/api/documentation`.  
 O endereço de `base_url` pode ser o localhost, caso o projeto esteja rodando locamente, ou a url base do projeto laravel rodando em produção.
 
 
-## Funcionalidades
+<!-- ## Funcionalidades
 
 A seguir estão as principais funcionalidades do projeto:
 
 1. **Login e Autenticação:** Os usuários podem fazer login e receber um token de autenticação para acessar os endpoints privados.
 2. **Logout:** Os usuários podem efetuar logout, invalidando o token de autenticação.  
-3. **CRUD de hotéis**: Cadastro, remoção e edição. (Apenas usuários de nível admin podem cadastrar, editar e remover hoteis).
+3. **CRUD de hotéis**: Cadastro, remoção e edição. (Apenas usuários de nível admin podem cadastrar, editar e remover hoteis). -->
 
-## Tecnologias Utilizadas
+<!-- ## Tecnologias Utilizadas
 
 O projeto utiliza as seguintes tecnologias e práticas:
 
@@ -52,17 +53,17 @@ O projeto utiliza as seguintes tecnologias e práticas:
 4. **Laravel Sail:** O projeto tem o ambiente de desenvolvimento orquestrado pelo Laravel Sail
 4. **Sanctum:** Para autenticação, o projeto faz uso do Sanctum.
 5. **Telescope:** Utiliza o Telescope para facilitar a monitorização e registro de logs durante o desenvolvimento e depuração.
-6. **Swagger:** A documentação da API é elaborada utilizando Swagger para oferecer uma visão detalhada dos endpoints disponíveis e suas funcionalidades.
+6. **Swagger:** A documentação da API é elaborada utilizando Swagger para oferecer uma visão detalhada dos endpoints disponíveis e suas funcionalidades. -->
 
 
-## Requisitos
+### Requisitos
 
 Antes de executar o projeto em seu ambiente de desenvolvimento, certifique-se de ter os seguintes requisitos atendidos:
 
 - **WSL:** O projeto requer que você esteja usando Linux ou o WSL (Windows Subsystem for Linux) se estiver usando Windows.
 - **Docker ou Docker Engine:** É necessário ter o Docker ou o Docker Engine instalado em seu ambiente. O Docker é uma plataforma que permite empacotar e distribuir aplicações em contêineres.
 
-## Instalação e Configuração Local
+### Instalação e Configuração Local
 
 Para instalar e configurar o projeto localmente, siga as etapas abaixo:
 
@@ -113,6 +114,6 @@ Durante o desenvolvimento do projeto XYZ, foram utilizados os seguintes recursos
 - [API de Pagamento Y](https://exemplo.com/api-pagamento-y): Integração com a API de pagamento Y para processar transações financeiras.
 - [Framework Z](https://exemplo.com/framework-z): Utilização do framework Z para agilizar o desenvolvimento. -->
 
-<!-- ## Licença
+<!-- ### Licença
 
 O projeto XYZ é licenciado sob a Licença MIT. Consulte o arquivo [LICENSE](https://github.com/seu-usuario/projeto-xyz/blob/main/LICENSE) para obter mais informações.    -->
