@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', AuthController::class);
 Route::get('/logout', LogoutController::class);
 
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/hotel', createHotelController::class);
     Route::delete('/hotel/{id}', RemoveHotelController::class);

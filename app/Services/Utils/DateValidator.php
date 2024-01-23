@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DateValidator
 {
-    public function validateDate(object $dateProvided)
+    public function validateDate(object $dateProvided): void
     {
         $currentDate = new \DateTime();
 

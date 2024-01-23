@@ -19,7 +19,8 @@ class RoomValidatorService
         }
     }
 
-    public function validateRoomStatus(object $data): void
+    // public function validateRoomStatus(object $data): void
+    public function validateRoomStatus($data): void
     {
         if($data['status'] != self::AVAILABLE_STATUS)
         {

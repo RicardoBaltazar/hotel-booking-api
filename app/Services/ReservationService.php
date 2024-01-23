@@ -57,7 +57,7 @@ class ReservationService
         $this->dateValidator->validateDate($dateProvided);
 
         $room = $this->room->find($data['room_id']);
-        $roomStatus = $this->roomStatus->find($room['status_id']);
+        $roomStatus = $this->roomStatus->find($room->status_id);
 
         $this->roomValidatorService->validateRoomStatus($roomStatus);
 
@@ -71,10 +71,11 @@ class ReservationService
             $this->reservation->create($data);
 
             $room->fill([
-                "status_id"=> self::OCCUPIED_STATUS_CODE,
+                "status_id" => self::OCCUPIED_STATUS_CODE,
             ]);
             $room->save();
 
+            Log::info('successfully booked hotel room');
             return 'successfully booked hotel room';
 
         } catch (Exception $e) {
