@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\SendEmailJob;
 use App\Models\Reservation;
 use App\Models\Room;
 use App\Models\RoomStatus;
@@ -19,6 +20,7 @@ class ReservationService
     const OCCUPIED_STATUS_CODE = 2;
     const RESERVATION_NOT_FOUND_MESSAGE = 'Reservation not found';
     const ROOM_NOT_FOUND_MESSAGE = 'Room not found';
+    const RESERVATION_SUCCESS_MESSAGE = 'successfully booked hotel room ';
 
     private $authenticatedUserHandlerService;
     private $modelValidatorService;
@@ -75,8 +77,11 @@ class ReservationService
             ]);
             $room->save();
 
-            Log::info('successfully booked hotel room');
-            return 'successfully booked hotel room';
+            SendEmailJob::dispatch($user->email, 'Email Subject', self::RESERVATION_SUCCESS_MESSAGE);
+
+            Log::info(self::RESERVATION_SUCCESS_MESSAGE);
+
+            return self::RESERVATION_SUCCESS_MESSAGE;
 
         } catch (Exception $e) {
             Log::error($e->getMessage());
