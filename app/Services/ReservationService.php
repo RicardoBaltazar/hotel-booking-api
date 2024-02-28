@@ -77,7 +77,11 @@ class ReservationService
             ]);
             $room->save();
 
-            SendEmailJob::dispatch($user->email, 'Email Subject', self::RESERVATION_SUCCESS_MESSAGE);
+            SendEmailJob::dispatch(
+                $user->email,
+                'Email Subject',
+                self::RESERVATION_SUCCESS_MESSAGE
+            );
 
             Log::info(self::RESERVATION_SUCCESS_MESSAGE);
 

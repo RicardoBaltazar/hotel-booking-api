@@ -1,33 +1,8 @@
-# Desafio: API de reserva de hoteis com microserviços e integração com API de pagamento
-
-## Descrição do desafio
-Desenvolva uma API para reservas de hotéis, integrada a um sistema de pagamentos e utilizando microserviços para garantir eficiência e escalabilidade.
-
-1. **Autenticação de Usuário:**
-    - Implementar um sistema de autenticação com JWT para garantir a segurança e controle de acesso à API.
-2. **CRUD de Hotéis:**
-    - Permitir criar, ler, atualizar e excluir hotéis, incluindo informações como nome, localização e comodidades. Cada hotel terá um ID exclusivo.
-3. **CRUD de Quartos de Hotel:**
-    - Possibilitar criar, ler, atualizar e excluir quartos de hotel, incluindo detalhes como tipo, preço e disponibilidade, associados a um hotel específico.
-4. **Reservas de Quartos de Hotel:**
-    - Permitir que usuários façam reservas de quartos de hotel escolhendo datas e quartos disponíveis, com verificação em tempo real de disponibilidade.
-5. **Integração com API de Pagamento:**
-    - Integrar-se a uma API de pagamento para possibilitar pagamentos seguros pelas reservas de quartos de hotel.
-6. **Microserviço de Notificações por E-mail:**
-    - Implementar ao menos um microserviço para enviar e-mails de confirmação de reserva aos usuários após uma reserva bem-sucedida.
-7. **Cache e Filas com Redis:**
-    - Utilizar Redis para melhorar o desempenho por meio de armazenamento em cache e processamento assíncrono de filas para os processamentos de pedidos, e envio de e-mails. Estas operações pode ser realizadas em segundo plano.
-8. **Deploy**
-    - Realizar o deploy da aplicação em algum ambiente de produção para disponibilizar o serviço. Se for possivel, utilize docker.  
-    ---  
-
-## Projeto do desafio
-
-<!-- # OpenHotelApp.api
+# Desafio: API de reserva de hoteis com redis e integração com API de pagamento
 
 ## Descrição do Projeto
 
-Este projeto é uma API Laravel voltada para reservas de quartos de hotéis. Criado como um projeto fictício para estudo e hobby, tem como objetivo adicionar progressivamente funcionalidades mais avançadas em cada versão. Planeja-se utilizar tecnologias como Docker, microserviços, mensageria, testes, explorar pesquisas avançadas com estruturas de dados e aprimorar a plataforma aos poucos. -->
+Este projeto é uma API de reservas de hotéis desenvolvida como um hobby, destinada a estudar e praticar diversas tecnologias, incluindo Docker, Redis, integrações com APIs externas, Swagger, entre outras. Estou incluindo alguns testes de carga em ambiente de produção e utilizei a arquitetura MVC padrão do Laravel, incluindo a camada de repository.
 
 ### Documentação
 
@@ -35,15 +10,16 @@ A documentação da API e dos endpoints foi elaborada utilizando Swagger e pode 
 O endereço de `base_url` pode ser o localhost, caso o projeto esteja rodando locamente, ou a url base do projeto laravel rodando em produção.
 
 
-<!-- ## Funcionalidades
+## Funcionalidades
 
 A seguir estão as principais funcionalidades do projeto:
 
 1. **Login e Autenticação:** Os usuários podem fazer login e receber um token de autenticação para acessar os endpoints privados.
 2. **Logout:** Os usuários podem efetuar logout, invalidando o token de autenticação.  
-3. **CRUD de hotéis**: Cadastro, remoção e edição. (Apenas usuários de nível admin podem cadastrar, editar e remover hoteis). -->
+3. **CRUD de hotéis**: Cadastro, remoção e edição. (Apenas usuários de nível admin podem cadastrar, editar e remover hoteis).
+4. **Reserva de quartos de hoteis**: Um usuário pode realiza a reserva de um quarto de hotel, indicando a data da reserva, e os dias reservados. O quarto só será reservado para o usuário caso esteja vago, e o usuário realize o pagamento da reserva.
 
-<!-- ## Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 O projeto utiliza as seguintes tecnologias e práticas:
 
@@ -51,9 +27,10 @@ O projeto utiliza as seguintes tecnologias e práticas:
 2. **Testes Automatizados:** O projeto possui uma suíte de testes automatizados utilizando PHPUnit para garantir a estabilidade e a qualidade do código.
 3. **Laravel:** O projeto é desenvolvido utilizando o framework Laravel.
 4. **Laravel Sail:** O projeto tem o ambiente de desenvolvimento orquestrado pelo Laravel Sail
-4. **Sanctum:** Para autenticação, o projeto faz uso do Sanctum.
-5. **Telescope:** Utiliza o Telescope para facilitar a monitorização e registro de logs durante o desenvolvimento e depuração.
-6. **Swagger:** A documentação da API é elaborada utilizando Swagger para oferecer uma visão detalhada dos endpoints disponíveis e suas funcionalidades. -->
+5. **Sanctum:** Para autenticação, o projeto faz uso do Sanctum.
+6. **Telescope:** Utiliza o Telescope para facilitar a monitorização e registro de logs durante o desenvolvimento e depuração.
+7. **Swagger:** A documentação da API é elaborada utilizando Swagger para oferecer uma visão detalhada dos endpoints disponíveis e suas funcionalidades.
+8. **Redis:** O projeto utiliza o Redis para consulta com cache e envio de e-mails com filas, melhorando o desempenho e a confiabilidade das operações relacionadas a essas funcionalidades.
 
 
 ### Requisitos
