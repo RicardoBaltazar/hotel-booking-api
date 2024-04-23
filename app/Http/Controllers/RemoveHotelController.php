@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\HotelService;
+use App\Services\Hotel\RemoveHotelService;
+use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class RemoveHotelController extends Controller
 {
-    protected $hotelService;
+    protected $removeHotelService;
 
-    public function __construct(HotelService $hotelService)
+    public function __construct(RemoveHotelService $removeHotelService)
     {
-        $this->hotelService = $hotelService;
+        $this->removeHotelService = $removeHotelService;
     }
 
     /**
@@ -73,12 +74,12 @@ class RemoveHotelController extends Controller
     public function __invoke(int $id)
     {
         try {
-            $response = $this->hotelService->removeHotel($id);
+            $response = $this->removeHotelService->removeHotel($id);
             return response()->json($response);
         } catch (HttpException $e) {
             return response()->json(['error' => $e->getMessage()], $e->getStatusCode());
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

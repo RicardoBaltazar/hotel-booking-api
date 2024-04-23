@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateHotelRequest;
-use App\Services\HotelService;
+use App\Services\Hotel\CreateHotelService;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class createHotelController extends Controller
 {
     protected $hotelService;
 
-    public function __construct(HotelService $hotelService)
+    public function __construct(CreateHotelService $hotelService)
     {
         $this->hotelService = $hotelService;
     }

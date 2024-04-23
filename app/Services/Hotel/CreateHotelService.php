@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Hotel;
 
 use App\Models\Hotels;
 use App\Models\Role;
+use App\Services\AuthenticatedUserHandlerService;
+use App\Services\UserPermissionCheckerService;
 use App\Traits\AuthenticatedUserIdTrait;
 use Exception;
 use Illuminate\Support\Facades\Log;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class HotelService
+class CreateHotelService
 {
     use AuthenticatedUserIdTrait;
 
@@ -37,7 +38,7 @@ class HotelService
 
         $user = $this->authenticatedUserHandlerService->getAuthenticatedUser();
         $data['user_id'] = $user->id;
-        $data['release_date'] = date('Y-m-d');
+        $data['release_date'] = $this->getCurrentReleaseDate();
 
         try {
             $this->hotels->create($data);
@@ -48,38 +49,8 @@ class HotelService
         }
     }
 
-    public function removeHotel(int $id): string
+    private function getCurrentReleaseDate(): string
     {
-        $this->userPermissionCheckerService->checkIfUserHasAdminPermission();
-        $hotel = $this->hotels->find($id);
-
-        if (!$hotel) {
-            throw new HttpException(404, 'Hotel not found');
-        }
-
-        try {
-            $hotel->delete($hotel);
-            return 'Hotel successfully removed';
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
-        }
-    }
-
-    public function editHotel(int $id, array $data): string
-    {
-        $this->userPermissionCheckerService->checkIfUserHasAdminPermission();
-        $hotel = $this->hotels->find($id);
-
-        if (!$hotel) {
-            throw new HttpException(404, 'Hotel not found');
-        }
-
-        try {
-            $hotel->fill($data);
-            $hotel->save();
-            return 'Hotel edited successfully';
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
-        }
+        return date('Y-m-d');
     }
 }

@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\Hotels;
 use App\Models\Room;
+use App\Models\User;
 use App\Services\AuthenticatedUserHandlerService;
 use App\Services\RoomService;
 use App\Services\UserPermissionCheckerService;
@@ -77,9 +78,10 @@ class RoomServiceTest extends TestCase
         $this->authenticatedUserHandlerServiceMock
             ->expects($this->once())
             ->method('getAuthenticatedUser')
-            ->willReturn((object)[
-                'id' => 1
-        ]);
+        //     ->willReturn((object)[
+        //         'id' => 1
+        // ]);
+        ->willReturn($this->createMock(User::class));
 
         $this->hotelValidatorServiceMock
             ->expects($this->once())
@@ -125,9 +127,10 @@ class RoomServiceTest extends TestCase
         $this->authenticatedUserHandlerServiceMock
             ->expects($this->once())
             ->method('getAuthenticatedUser')
-            ->willReturn((object)[
-                'id' => 1
-        ]);
+        //     ->willReturn((object)[
+        //         'id' => 1
+        // ]);
+        ->willReturn($this->createMock(User::class));
 
         $this->roomValidatorServiceMock
             ->expects($this->once())
@@ -158,9 +161,10 @@ class RoomServiceTest extends TestCase
         $this->authenticatedUserHandlerServiceMock
             ->expects($this->once())
             ->method('getAuthenticatedUser')
-            ->willReturn((object)[
-                'id' => 1
-        ]);
+        //     ->willReturn((object)[
+        //         'id' => 1
+        // ]);
+        ->willReturn($this->createMock(User::class));
 
         $this->roomValidatorServiceMock
             ->expects($this->once())

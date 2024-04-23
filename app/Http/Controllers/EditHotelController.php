@@ -3,17 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateHotelRequest;
-use App\Services\HotelService;
-use Illuminate\Http\Request;
+use App\Services\Hotel\EditHotelService;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class EditHotelController extends Controller
 {
-    protected $hotelService;
+    protected $editHotelService;
 
-    public function __construct(HotelService $hotelService)
+    public function __construct(EditHotelService $editHotelService)
     {
-        $this->hotelService = $hotelService;
+        $this->editHotelService = $editHotelService;
     }
 
  /**
@@ -92,7 +91,7 @@ class EditHotelController extends Controller
     {
         $data = $request->all();
         try {
-            $response = $this->hotelService->editHotel($id, $data);
+            $response = $this->editHotelService->editHotel($id, $data);
             return response()->json($response);
         } catch (HttpException $e) {
             return response()->json(['error' => $e->getMessage()], $e->getStatusCode());
