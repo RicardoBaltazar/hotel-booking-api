@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\CustomException;
 use App\Http\Requests\LoginRequest;
-use App\Services\LoginService;
+use App\Services\Auth\LoginService;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AuthController extends Controller
 {
@@ -77,9 +77,10 @@ class AuthController extends Controller
 
         } catch (AuthenticationException $e) {
             return response()->json(['error' => $e->getMessage()], 401);
-
-        } catch (CustomException $e) {
-            return response()->json(['error' => $e->getMessage()], 404);
+        } catch (HttpException $e) {
+            return response()->json(['error' => $e->getMessage()], $e->getStatusCode());
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }

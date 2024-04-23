@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\CustomException;
-use App\Services\LoginService;
+use App\Services\Auth\LogoutService;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class LogoutController extends Controller
 {
-    protected $loginService;
+    protected $logoutService;
 
-    public function __construct(LoginService $loginService)
+    public function __construct(LogoutService $logoutService)
     {
-        $this->loginService = $loginService;
+        $this->logoutService = $logoutService;
     }
 
 /**
@@ -42,14 +41,16 @@ class LogoutController extends Controller
     public function __invoke()
     {
         try {
-            $response = $this->loginService->logout();
+            $response = $this->logoutService->logout();
             return response()->json($response);
 
         } catch (AuthenticationException $e) {
             return response()->json(['error' => $e->getMessage()], 401);
 
-        } catch (CustomException $e) {
-            return response()->json(['error' => $e->getMessage()], 404);
+        } catch (HttpException $e) {
+            return response()->json(['error' => $e->getMessage()], $e->getStatusCode());
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }

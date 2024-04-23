@@ -10,10 +10,12 @@ use App\Http\Controllers\EditHotelController;
 use App\Http\Controllers\EditRoomController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RemoveHotelController;
+use App\Http\Controllers\StripeController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', AuthController::class);
 Route::get('/logout', LogoutController::class);
+Route::post('/teste', [StripeController::class, 'processPayment']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/hotel', createHotelController::class);
