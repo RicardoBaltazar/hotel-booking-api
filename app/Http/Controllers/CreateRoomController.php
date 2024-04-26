@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\RoomService;
+use App\Services\Room\CreateRoomService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CreateRoomController extends Controller
 {
-    protected $roomService;
+    protected $createRoomService;
 
-    public function __construct(RoomService $roomService)
+    public function __construct(CreateRoomService $createRoomService)
     {
-        $this->roomService = $roomService;
+        $this->createRoomService = $createRoomService;
     }
 
 /**
@@ -67,9 +67,8 @@ class CreateRoomController extends Controller
     public function __invoke(Request $request)
     {
         $data = $request->all();
-
         try {
-            $response = $this->roomService->registerRoom($data);
+            $response = $this->createRoomService->registerRoom($data);
             return response()->json($response);
         } catch (HttpException $e) {
             return response()->json(['error' => $e->getMessage()], $e->getStatusCode());
