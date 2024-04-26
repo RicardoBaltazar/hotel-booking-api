@@ -1,25 +1,22 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Auth;
 
 use App\Models\Role;
 use App\Models\User;
-use App\Services\Utils\CredentialsValidator;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Support\Facades\Hash;
 
 class LoginService
 {
-    private $credentialsValidator;
     private $user;
     private $role;
 
     public function __construct(
-        CredentialsValidator $credentialsValidator,
         User $user,
         Role $role
         )
     {
-        $this->credentialsValidator = $credentialsValidator;
         $this->user = $user;
         $this->role = $role;
     }
@@ -27,7 +24,7 @@ class LoginService
     public function login(array $data): array
     {
         $user = $this->user->getByEmail($data['email']);
-        $this->credentialsValidator->validateCredentials($data['password'], $user->password);
+        $this->validateCredentials($data['password'], $user->password);
 
         $token = $user->createToken('token-name')->plainTextToken;
         $accessLevel = $this->role->getByUserId($user->id);
@@ -39,14 +36,15 @@ class LoginService
         ];
     }
 
-    public function logout(): string
-    {
-        Auth::logout();
-        return 'logout realizado!';
-    }
-
     protected function getUserByEmail(string $email)
     {
         return $this->user->getByEmail($email);
+    }
+
+    private function validateCredentials(string $inputPassword, string $hashedPassword): void
+    {
+        if (!Hash::check($inputPassword, $hashedPassword)) {
+            throw new AuthenticationException('E-mail ou senha inválida');
+        }
     }
 }

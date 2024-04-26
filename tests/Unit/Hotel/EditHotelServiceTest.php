@@ -4,19 +4,16 @@ namespace Tests\Unit;
 
 use App\Models\Hotels;
 use App\Models\Role;
-use App\Models\User;
-use App\Services\AuthenticatedUserHandlerService;
-use App\Services\Hotel\CreateHotelService;
+use App\Services\Hotel\EditHotelService;
 use App\Services\UserPermissionCheckerService;
 use App\Traits\AuthenticatedUserIdTrait;
 use Mockery;
 use Tests\TestCase;
 
-class HotelServiceTest extends TestCase
+class EditHotelServiceTest extends TestCase
 {
     use AuthenticatedUserIdTrait;
 
-    private $authenticatedUserHandlerServiceMock;
     private $userPermissionCheckerServiceMock;
     private $roleMock;
     private $hotelsMock;
@@ -26,13 +23,11 @@ class HotelServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->authenticatedUserHandlerServiceMock = $this->createMock(AuthenticatedUserHandlerService::class);
         $this->userPermissionCheckerServiceMock = $this->createMock(UserPermissionCheckerService::class);
         $this->roleMock = $this->createMock(Role::class);
         $this->hotelsMock = Mockery::mock(Hotels::class);
 
-        $this->hotelService = new CreateHotelService(
-            $this->authenticatedUserHandlerServiceMock,
+        $this->hotelService = new EditHotelService(
             $this->userPermissionCheckerServiceMock,
             $this->roleMock,
             $this->hotelsMock
@@ -45,31 +40,22 @@ class HotelServiceTest extends TestCase
         parent::tearDown();
     }
 
-    public function test_it_creates_hotel_successfully()
+    public function test_if_hotel_was_edited()
     {
-        $this->hotelsMock
-            ->shouldReceive('create')
-            ->once()
-            ->andReturn(true);
-
-        $this->userPermissionCheckerServiceMock
-            ->expects($this->once())
-            ->method('checkIfUserHasAdminPermission');
-
-        $this->authenticatedUserHandlerServiceMock
-            ->expects($this->once())
-            ->method('getAuthenticatedUser')
-        ->willReturn($this->createMock(User::class));
-
-
+        $id = 1;
         $data = [
             "name" => "Hotel Excelência",
             "location" => "Rua das Flores, 123",
             "amenities" => "Quarto acolhedor, Wi-Fi gratuito, Restaurante"
         ];
 
-        $result = $this->hotelService->createHotel($data);
+        $hotel = Mockery::mock('Hotel');
+        $this->hotelsMock->shouldReceive('find')->with($id)->andReturn($hotel);
 
-        $this->assertEquals('Hotel registered successfully', $result);
+        $hotel->shouldReceive('fill')->once()->with($data);
+        $hotel->shouldReceive('save')->once()->andReturn(true);
+
+        $result = $this->hotelService->editHotel($id, $data);
+        $this->assertEquals('Hotel edited successfully', $result);
     }
 }

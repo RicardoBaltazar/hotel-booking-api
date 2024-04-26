@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Role;
 use App\Traits\AuthenticatedUserIdTrait;
+use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class UserPermissionCheckerService
@@ -23,7 +24,7 @@ class UserPermissionCheckerService
         $roles = $this->role->getByUserId($id);
 
         if ($roles->role == 'user') {
-            throw new HttpException(403, 'Only admin users are allowed to access this feature');
+            throw new HttpException(Response::HTTP_FORBIDDEN, 'Only admin users are allowed to access this feature');
         }
     }
 }
