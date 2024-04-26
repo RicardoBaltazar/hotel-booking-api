@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Room;
 
 use App\Models\Hotels;
 use App\Models\Room;
 use App\Models\User;
 use App\Services\AuthenticatedUserHandlerService;
-use App\Services\RoomService;
+use App\Services\Room\CreateRoomService;
 use App\Services\UserPermissionCheckerService;
 use App\Services\Utils\ModelValidatorService;
 use App\Services\Utils\UserHotelValidatorService;
@@ -14,7 +14,7 @@ use App\Traits\AuthenticatedUserIdTrait;
 use Mockery;
 use Tests\TestCase;
 
-class RoomServiceTest extends TestCase
+class CreateRoomServiceTest extends TestCase
 {
     use AuthenticatedUserIdTrait;
 
@@ -22,6 +22,7 @@ class RoomServiceTest extends TestCase
     private $userPermissionCheckerServiceMock;
     private $userHotelValidatorService;
     private $modelValidatorServiceMock;
+    private $createRoomService;
     private $hotelMock;
     private $roomMock;
     private $roomService;
@@ -37,7 +38,7 @@ class RoomServiceTest extends TestCase
         $this->hotelMock = Mockery::mock(Hotels::class);
         $this->roomMock = Mockery::mock(Room::class);
 
-        $this->roomService = new RoomService(
+        $this->createRoomService = new CreateRoomService(
             $this->authenticatedUserHandlerServiceMock,
             $this->userPermissionCheckerServiceMock,
             $this->userHotelValidatorService,
@@ -71,7 +72,7 @@ class RoomServiceTest extends TestCase
             "price"=> 150.00
         ];
 
-        $result = $this->roomService->registerRoom($data);
+        $result = $this->createRoomService->registerRoom($data);
         $this->assertEquals('Hotel room registered successfully', $result);
     }
 }
