@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\ReservationService;
+use App\Services\Reservation\ReservationService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 

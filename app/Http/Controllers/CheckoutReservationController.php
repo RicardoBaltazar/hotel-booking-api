@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\ReservationService;
+use App\Services\Reservation\ReservationCheckoutService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CheckoutReservationController extends Controller
 {
-    protected $reservationService;
+    protected $reservationCheckoutService;
 
-    public function __construct(ReservationService $reservationService)
+    public function __construct(ReservationCheckoutService $reservationCheckoutService)
     {
-        $this->reservationService = $reservationService;
+        $this->reservationCheckoutService = $reservationCheckoutService;
     }
 
     public function __invoke(Request $request)
@@ -20,7 +20,7 @@ class CheckoutReservationController extends Controller
         $data = $request->all();
 
         try {
-            $response = $this->reservationService->checkout($data);
+            $response = $this->reservationCheckoutService->checkout($data);
             return response()->json($response);
         } catch (HttpException $e) {
             return response()->json(['error' => $e->getMessage()], $e->getStatusCode());
